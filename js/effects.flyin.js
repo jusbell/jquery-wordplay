@@ -1,3 +1,13 @@
+/*
+ * jQuery UI Flyin Effects Plugin
+ * https://github.com/jusbell/jquery-wordplay
+ *
+ * Copyright 2012, Justin Brydebell
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
 (function($) {
 
 function winInfo(){

@@ -1,3 +1,12 @@
+/*
+ * jQuery Wordplay Plugin
+ * https://github.com/jusbell/jquery-wordplay
+ *
+ * Copyright 2012, Justin Brydebell
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
 (function($) {
 
 	// Some static vars and default values
