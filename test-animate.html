@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css" media="all">
+	#container{
+		position:relative;
+		height:300px;
+	}
+	#test{
+		position:absolute;
+		top:0px;
+		font-size:62px;
+	}
+	#test2{
+		position:absolute;
+		top:150px;
+		font-size:100px;
+	}
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.wordplay.js"></script>
+	<script type="text/javascript" src="js/ui.effects.js"></script>
+	<script type="text/javascript" src="js/effects.flyin.js"></script>
+    <script type="text/javascript">
+	jQuery(function($) {
+		$('#test').wordplay({
+			text:'Here is the first test... another will follow',
+			onWrap:function(){
+				this.absolutize().getChars().hide();
+			},
+			onShow:function(e){
+				var me = this, el = me.getContainer();
+				this.getChars().each(function(i, ch){
+					el.queue('wp', function(next){
+						$(ch).show("fly", { direction:'left', complete:next }, 100);
+						$(ch).removeAttr('filter');
+					});
+				});
+				el.delay(1500, 'wp');
+				me.hide();
+			},
+			onHide:function(){
+				var me = this, el = me.getContainer();
+				this.getChars().each(function(i, ch){
+					el.queue('wp', function(next){
+						$(ch).hide("fly", {direction:'backward', /*easing:'easeInElastic',*/ radius:100}, 2000);
+						next();
+					});
+				});
+				el.queue('wp', function(next){
+					me.getNextInstance().show();
+					next();
+				});
+				el.dequeue('wp');
+			}
+		});
+
+		$('#test2').wordplay({
+			autoshow:false,
+			autohide:true,
+			text:'Here it is',
+			onWrap:function(){
+				this.absolutize().getChars().hide();
+			},
+			onShow:function(e){
+				var me = this, el = me.getContainer();
+				this.absolutize().getChars().hide().each(function(i, ch){
+					el.queue('wp', function(next){
+						$(ch).show("fly", { direction:'up', complete:next }, 100);
+					});
+				});
+				el.delay(1500, 'wp');
+				me.hide();
+			},
+			onHide:function(){
+				var me = this, el = me.getContainer();
+				this.getChars().each(function(i, ch){
+					el.queue('wp', function(next){
+						$(ch).hide("puff", {}, 750);
+						next()
+					});
+				});
+				el.dequeue('wp');
+			}
+		});
+	});
+	</script>
+</head>
+<body>
+<div id="container">
+	<div id="test" class="test"></div>
+	<div id="test2" class="test"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<style type="text/css" media="all">
+#container{
+	position:relative;
+	height:300px;
+}
+#test{
+	position:absolute;
+	top:0px;
+	font-size:62px;
+}
+#test2{
+	position:absolute;
+	top:150px;
+	font-size:100px;
+}
+</style>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.wordplay.js"></script>
+	<script type="text/javascript" src="js/ui.effects.js"></script>
+	<script type="text/javascript" src="js/effects.flyin.js"></script>
+	<script type="text/javascript">
+(function($){
+
+	var min = 3;
+	var max = 7;
+
+	var words = null;
+
+	function shuffle(arr){
+	 	var shuffled = [], rand;
+	    arr.each(function(index, value) {
+	      rand = Math.floor(Math.random() * (index + 1));
+	      shuffled[index] = shuffled[rand];
+	      shuffled[rand] = value;
+	    });
+	    return shuffled;   
+	}
+
+	$.deteriorate = function(){
+		var items = shuffle(words.find('.word'));
+		for(var i=0; i<items.length; i+=5){
+			(function(x){
+				words.queue('words', function(next){
+					var amount = Math.floor(Math.random() * (max - min + 1)) + min;
+					var end = x+amount;
+					end = (end > items.length-1) ? items.length-1 : end;
+					for(j=x; j<=end; j++){
+						console.debug('Animating x=%d, j=%d', x, j);
+						if (j==end-1){
+							$(items[j]).animate({'opacity':0}, 500, next);
+						} else {
+							$(items[j]).animate({'opacity':0}, 500);
+						}
+					}
+				});
+			})(i);
+		}
+		words.dequeue('words');
+	}
+
+
+jQuery(function($){
+	$('#phrase').wordplay('phrase');
+	$('#char').wordplay('char');
+	
+	words = $('#word').wordplay('word');
+
+	setTimeout($.deteriorate, 3000);
+});
+
+})(jQuery);
+
+</script>
+</head>
+<body>
+
+<h3>All sentences wrapped</h3>
+<p id="phrase">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h3>All words wrapped, warning: words will deteriorate after 3 seconds...</h3>
+<p id="word">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h3>All characters will be wrapped</h3>
+<p id="char">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+
+</body>
+</html>
